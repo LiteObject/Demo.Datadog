@@ -67,7 +67,8 @@ namespace Product.Api
             });
 
             _ = builder.Services
-                .AddDbContextPool<ProductDbContext>(o => o.UseInMemoryDatabase(databaseName: "ProductDb"))
+                //.AddDbContextPool<ProductDbContext>(o => o.UseSqlite(databaseName: "ProductDb"))
+                .AddDbContext<ProductDbContext>()
                 .AddScoped<IProductService, ProductService>()
                 .AddScoped<IRepository<Entities.Product>, GenericRepository<Entities.Product, ProductDbContext>>();
 
@@ -145,13 +146,7 @@ namespace Product.Api
 
             }); */
 
-            // ... instead of running migration command from CLI
-            using (IServiceScope scope = app.Services.CreateScope())
-            {
-                IServiceProvider services = scope.ServiceProvider;
-                ProductDbContext context = services.GetRequiredService<ProductDbContext>();
-                _ = context.Database.EnsureCreated();
-            }
+            SetupDatabaseWithDummyData(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -167,6 +162,24 @@ namespace Product.Api
             _ = app.MapControllers();
 
             app.Run();
+        }
+
+        private static void SetupDatabaseWithDummyData(WebApplication app)
+        {
+            // ... instead of running migration command from CLI           
+            using IServiceScope serviceScope = app.Services.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            using ProductDbContext productDbContext = serviceProvider.GetRequiredService<ProductDbContext>();
+            _ = productDbContext.Database.EnsureDeleted();
+            _ = productDbContext.Database.EnsureCreated();
+
+            productDbContext.Products.AddRange(
+                new Entities.Product { Id = 1, Name = "Product One", Description = "", UnitPrice = 1.5m, CreatedOn = DateTime.UtcNow, IsAvailable = true },
+                new Entities.Product { Id = 2, Name = "Product Two", Description = "", UnitPrice = 2.5m, CreatedOn = DateTime.UtcNow, IsAvailable = true },
+                new Entities.Product { Id = 3, Name = "Product Three", Description = "", UnitPrice = 3.5m, CreatedOn = DateTime.UtcNow, IsAvailable = false }
+                );
+
+            _ = productDbContext.SaveChanges();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Product.Api.Controllers
             IScope scope = Tracer.Instance.ActiveScope;
 
             // Add a tag to the span for use in the datadog web UI
-            _ = (scope?.Span.SetTag("customer.id", "mhoque@inspirato.io"));
+            _ = (scope?.Span.SetTag("customer.id", "mhoque@email.io"));
 
             List<Entities.Product> products = await _productService.FindAsync(p => p.IsAvailable);
             return products is null || !products.Any() ?
