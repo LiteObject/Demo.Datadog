@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0210: Convert to top-level statements
+dotnet_diagnostic.IDE0210.severity = suggestion
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = suggestion
