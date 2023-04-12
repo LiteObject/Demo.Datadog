@@ -1,4 +1,3 @@
-using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -29,7 +28,7 @@ namespace Product.Api
             string serviceName = "mx-local-service";
             string serviceVersion = "1.0.0";
             string sourceName = "mx-local-source";
-            ActivitySource MyActivitySource = new(serviceName);
+            using ActivitySource MyActivitySource = new(serviceName);
 
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

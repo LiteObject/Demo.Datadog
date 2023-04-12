@@ -18,9 +18,11 @@ namespace Product.Api.Services
 
         public async Task<List<Entities.Product>> FindAsync(Expression<Func<Entities.Product, bool>> predicate)
         {
-            // ArgumentNullException.ThrowIfNull(predicate, nameof(predicate));
+            ArgumentNullException.ThrowIfNull(predicate, nameof(predicate));
+
             _logger.LogDbg($"Invoked {nameof(FindAsync)}. Arg: {predicate?.Body}");
             List<Entities.Product> products = await _repository.FindAsync(predicate);
+            _logger.LogDbg($"Found {products.Count} product(s)");
             return products;
         }
 

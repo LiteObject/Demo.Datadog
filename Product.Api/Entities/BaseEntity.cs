@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Product.Api.Entities
+﻿namespace Product.Api.Entities
 {
     public abstract class BaseEntity
     {
         public int Id { get; set; }
-
         public DateTime CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
     }
