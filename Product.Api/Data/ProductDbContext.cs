@@ -12,9 +12,9 @@ namespace Product.Api.Data
             DbPath = Path.Join(path, "Product.db");
         }
 
-        //public ProductDbContext(DbContextOptions<ProductDbContext> options) : base(options)
-        //{
-        //}
+        public ProductDbContext(DbContextOptions<ProductDbContext> options) : base(options)
+        {
+        }
 
         public DbSet<Entities.Product> Products { get; set; }
 

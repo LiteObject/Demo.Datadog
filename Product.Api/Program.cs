@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -41,18 +42,34 @@ namespace Product.Api
             _ = builder.Services.AddOpenTelemetry().WithTracing(b =>
             {
                 _ = b.AddConsoleExporter()
-                .AddSource(sourceName).SetResourceBuilder(resourceBuilder: ResourceBuilder.CreateDefault().AddService(serviceName: serviceName, serviceVersion: serviceVersion))
+                .AddSource(sourceName)
+                .ConfigureResource(res => res.AddService(serviceName: serviceName, serviceVersion: serviceVersion))
                 .AddHttpClientInstrumentation()
-                .AddAspNetCoreInstrumentation();
+                .AddAspNetCoreInstrumentation()
+                .AddSqlClientInstrumentation()
+                //.AddOtlpExporter(opt =>
+                //{
+                //    opt.Endpoint = new Uri("http://localhost:4317");
+                //    opt.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                //})
+                .AddConsoleExporter()
+                .AddJaegerExporter();
+            });
 
-            }).WithMetrics(b =>
+            _ = builder.Services.AddOpenTelemetry().WithMetrics(b =>
             {
                 _ = b
-                .AddConsoleExporter()
-                .AddMeter(meter.Name)
-                .SetResourceBuilder(appResourceBuilder)
+                //.AddMeter(meter.Name)
+                //.SetResourceBuilder(appResourceBuilder)
+                .ConfigureResource(res => res.AddService(serviceName: serviceName, serviceVersion: serviceVersion))
                 .AddAspNetCoreInstrumentation()
-                .AddHttpClientInstrumentation();
+                .AddHttpClientInstrumentation()
+                //.AddOtlpExporter(opt =>
+                //{
+                //    opt.Endpoint = new Uri("http://localhost:4317");
+                //    opt.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
+                //})
+                .AddConsoleExporter();
             });
 
             _ = builder.Host.UseSerilog((context, services, configuration) =>
@@ -66,7 +83,14 @@ namespace Product.Api
 
             _ = builder.Services
                 //.AddDbContextPool<ProductDbContext>(o => o.UseSqlite(databaseName: "ProductDb"))
-                .AddDbContext<ProductDbContext>()
+                .AddDbContext<ProductDbContext>(optionsBuilder =>
+                {
+                    _ = optionsBuilder
+                    .UseSqlServer("Server=localhost;Database=ProductDB;User=sa;Password=myPa55w0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;")
+                    .EnableDetailedErrors()
+                    .EnableSensitiveDataLogging()
+                    .LogTo(Console.WriteLine, LogLevel.Information);
+                })
                 .AddScoped<IProductService, ProductService>()
                 .AddScoped<IRepository<Entities.Product>, GenericRepository<Entities.Product, ProductDbContext>>();
 
@@ -172,9 +196,9 @@ namespace Product.Api
             _ = productDbContext.Database.EnsureCreated();
 
             productDbContext.Products.AddRange(
-                new Entities.Product { Id = 1, Name = "Product One", Description = "", UnitPrice = 1.5m, CreatedOn = DateTime.UtcNow, IsAvailable = true },
-                new Entities.Product { Id = 2, Name = "Product Two", Description = "", UnitPrice = 2.5m, CreatedOn = DateTime.UtcNow, IsAvailable = true },
-                new Entities.Product { Id = 3, Name = "Product Three", Description = "", UnitPrice = 3.5m, CreatedOn = DateTime.UtcNow, IsAvailable = false }
+                new Entities.Product { Name = "Product One", Description = "", UnitPrice = 1.5m, CreatedOn = DateTime.UtcNow, IsAvailable = true },
+                new Entities.Product { Name = "Product Two", Description = "", UnitPrice = 2.5m, CreatedOn = DateTime.UtcNow, IsAvailable = true },
+                new Entities.Product { Name = "Product Three", Description = "", UnitPrice = 3.5m, CreatedOn = DateTime.UtcNow, IsAvailable = false }
                 );
 
             _ = productDbContext.SaveChanges();

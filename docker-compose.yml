@@ -14,15 +14,33 @@ services:
 
   demo-datadog-jaeger:
     image: jaegertracing/all-in-one:latest
+    container_name: demo-datadog-jaeger
     hostname: jaeger
     restart: always
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
     ports:
       - 16686:16686 # UI: http://localhost:16686/search
-      #- 4317:55680
-      #- 55680:55680 # OTLP receiver listening on port 
-      #- 13133:13133 # Health check port       
-      - '5775:5775/udp'
-      - '6831:6831/udp'
-      - '6832:6832/udp'
-      - '5778:5778'
-      - '9411:9411'
+      #- 4317:4317
+      #- 4318:4318
+      - 6831:6831/udp
+      - 13133:13133 # Health check port       
+
+  demo-datadog-db:
+    container_name: demo-datadog-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "myPa55w0rd"
+      ACCEPT_EULA: "Y"
+    restart: always
+    healthcheck:
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P myPa55w0rd -Q 'SELECT 1' || exit 1"]
+        interval: 10s
+        retries: 10
+        start_period: 10s
+        timeout: 3s
+      
+      
+      
