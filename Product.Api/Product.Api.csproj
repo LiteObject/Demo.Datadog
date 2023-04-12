@@ -29,54 +29,54 @@
 
 	<ItemGroup>
 
-		<PackageReference Include="Datadog.Trace" Version="2.21.0" />
+		<PackageReference Include="Datadog.Trace" Version="2.27.0" />
 
-		<PackageReference Include="Datadog.Trace.OpenTracing" Version="2.21.0" />
+		<PackageReference Include="Datadog.Trace.OpenTracing" Version="2.27.0" />
 
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0-preview.3.23174.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.3.23174.2" />
 		
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.3.23174.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-preview.3.23174.2" />
 		
 		
-		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0-rc.1" />
-		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" Version="1.4.0-rc.1" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.5.0-alpha.2" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" Version="1.5.0-alpha.2" />
 		
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 
 		<PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
 
 		<!--SeriLog Pckages-->
 
-		<PackageReference Include="Serilog.AspNetCore" Version="6.1.1-dev-00293" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="3.5.0-dev-00367" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.1-dev-00295" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="4.0.0-dev-00486" />
 		<PackageReference Include="Serilog.Expressions" Version="3.4.2-dev-00119" />
 		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
 
-		<PackageReference Include="Serilog.Enrichers.Span" Version="3.0.0" />
-		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.1-dev-00787" />
+		<PackageReference Include="Serilog.Enrichers.Span" Version="3.1.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0-dev-00792" />
 		<PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00752" />
 
-		<PackageReference Include="Serilog.Sinks.Datadog.Logs" Version="0.4.1-beta1" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="5.2.3-dev-00260" />
+		<PackageReference Include="Serilog.Sinks.Datadog.Logs" Version="0.5.2" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="5.2.3-dev-00262" />
 		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
 
-		<PackageReference Include="OpenTelemetry" Version="1.4.0-rc.1" />
-		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.4.0-rc.1" />
+		<PackageReference Include="OpenTelemetry" Version="1.5.0-alpha.2" />
+		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.5.0-alpha.2" />
 		<!-- <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0-alpha.1" /> -->
-		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0-rc.1" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.10" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.10" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.5.0-alpha.2" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.14" />
 	</ItemGroup>
 
 	<ItemGroup>
