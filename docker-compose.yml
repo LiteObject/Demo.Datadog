@@ -1,0 +1,14 @@
+version: '3.8'
+name: demo-datadog
+services:
+
+  demo-datadog-seq:
+    image: datalust/seq:latest
+    container_name: k8s-training-seq
+    restart: unless-stopped
+    ports:
+      - 5380:80   # UI
+      - 5341:5341 # Data ingest
+    environment:      
+      - ACCEPT_EULA=Y
+
