@@ -31,6 +31,7 @@ namespace Product.Api.Middleware
                 ClaimsPrincipal user = context.User;
                 Claim? userEmailClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
 
+                // Scope vs Correlation Id: Deterministic vs Non-Deterministic
                 using (_logger.BeginScope($"User: {user.Identity.Name} ({userEmailClaim?.Value})"))
                 {
                     await _next(context);
