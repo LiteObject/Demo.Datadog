@@ -66,8 +66,8 @@ namespace Product.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            await Task.Delay(1);
             _logger.LogInf("Adding a new product");
-            await Task.Delay(500);
             return Created(new Uri("/"), product);
         }
 

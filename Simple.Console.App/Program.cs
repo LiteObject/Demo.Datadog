@@ -3,6 +3,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Sinks.Datadog.Logs;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Simple.Console.App
 {
@@ -33,12 +34,10 @@ namespace Simple.Console.App
 
             var user = new { Name = "Mohammed", Email = "test@email.com" };
 
-            //log.Information("INF: Processed user: {@Position} in {Elapsed:000} ms.", user, sw.ElapsedMilliseconds);
-            //log.Information("INF: Processed user: {Position}", user);
-            //log.Warning("WRN: The system is performing poorly.");
-            //log.Error("ERR: The system encountered an error.");
-
-
+            //log.Enrich().Information("INF: Processed user: {@Position} in {Elapsed:000} ms.", user, sw.ElapsedMilliseconds);
+            //log.Enrich().Information("INF: Processed user: {Position}", user);
+            //log.Enrich().Warning("WRN: The system is performing poorly.");
+            //log.Enrich().Error("ERR: The system encountered an error.");
 
             using ILoggerFactory loggerFactory = new LoggerFactory();
             _ = loggerFactory.AddSerilog(log);
@@ -51,6 +50,16 @@ namespace Simple.Console.App
                 logger.LogWarning("WRN: The system is performing poorly.");
                 logger.LogError("ERR: The system encountered an error.");
             }
+        }
+    }
+
+    public static class LoggerExtensions
+    {
+        public static Serilog.ILogger Enrich(this Serilog.ILogger logger, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return logger
+                .ForContext("MemberName", memberName)
+                .ForContext("LineNumber", sourceLineNumber);
         }
     }
 }
